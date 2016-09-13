@@ -54,12 +54,12 @@ namespace Hylasoft.Resolution
     /// <summary>
     /// Produces an exception from a result, ordered by descending severity.
     /// </summary>
-    public Exception ToException()
+    public ResultException ToException()
     {
       return Issues
         .Where(issue => !ReferenceEquals(issue, null))
         .OrderByDescending(issue => issue.Level)
-        .Aggregate<ResultIssue, Exception>(null, (inner, issue) => new Exception(issue.Message, inner));
+        .Aggregate<ResultIssue, ResultException>(null, (inner, issue) => new ResultException(issue, inner));
     }
 
     protected override string ComponentName

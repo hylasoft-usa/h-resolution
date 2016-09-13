@@ -18,6 +18,11 @@ namespace Hylasoft.Resolution
       if ((dateComparison = Date.CompareTo(otherIssue.Date)) != 0)
         return dateComparison;
 
+      // Sort by level second.
+      int levelComparison;
+      if ((levelComparison = Level.CompareTo(otherIssue.Level)) != 0)
+        return levelComparison;
+
       // Sort by issue code second.
       int issueCodeComparison;
       if ((issueCodeComparison = IssueCode.CompareTo(otherIssue.IssueCode)) != 0)

@@ -105,5 +105,18 @@
     {
       return new Result(new[] { a, b });
     }
+
+    public static bool operator <(ResultIssue a, ResultIssue b)
+    {
+      if (ReferenceEquals(a, null))
+        return true;
+
+      return a.CompareTo(b) < 0;
+    }
+
+    public static bool operator >(ResultIssue a, ResultIssue b)
+    {
+      return b < a;
+    }
   }
 }
