@@ -24,7 +24,7 @@ namespace Hylasoft.Resolution
     /// </summary>
     public bool IsSuccessful
     {
-      get { return _isSuccessful ?? (_isSuccessful = (!Issues.Any() || Issues.All(i => i.Level < ResultIssueLevels.Error))).Value; }
+      get { return _isSuccessful ?? (_isSuccessful = this.Max().Level < ResultIssueLevels.Error).Value; }
     }
 
     /// <summary>
