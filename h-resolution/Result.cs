@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -24,7 +23,7 @@ namespace Hylasoft.Resolution
     /// </summary>
     public bool IsSuccessful
     {
-      get { return _isSuccessful ?? (_isSuccessful = this.Max().Level < ResultIssueLevels.Error).Value; }
+      get { return _isSuccessful ?? (_isSuccessful = this.All(issue => issue == null || issue.Level <= ResultIssueLevels.Warning)).Value; }
     }
 
     /// <summary>
