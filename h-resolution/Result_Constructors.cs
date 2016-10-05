@@ -196,13 +196,16 @@ namespace Hylasoft.Resolution
       Result formatResult;
       try
       {
-        msgFormat = string.Format(message, parameters);
+        msgFormat = parameters == null || !parameters.Any()
+          ? message
+          : string.Format(message, parameters);
+
         formatResult = Success;
       }
       catch (Exception e)
       {
         msgFormat = message;
-        formatResult = Error(e);
+        formatResult = SingleWarning("Failed to format message '{0}'.", message) + Error(e);
       }
 
       var singleResult = new Result(new ResultIssue(msgFormat, level, issueCode));
