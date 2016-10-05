@@ -33,6 +33,11 @@ namespace Hylasoft.Resolution
     public static Result Error(Exception e)
     {
       var messages = new List<string>();
+
+      var stack = e == null
+        ? string.Empty
+        : e.StackTrace;
+
       for (; e != null; e = e.InnerException)
         messages.Add(e.Message);
 
@@ -40,7 +45,11 @@ namespace Hylasoft.Resolution
         .Distinct()
         .Select(message => new ResultIssue(message, ResultIssueLevels.Error));
 
-      return new Result(issues);
+      var error = new Result(issues);
+      if (!string.IsNullOrEmpty(stack))
+        error += SingleDebug(stack);
+
+      return error;
     }
 
     /// <summary>
