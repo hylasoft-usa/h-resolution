@@ -21,7 +21,7 @@ namespace Hylasoft.Resolution
     internal Result(IEnumerable<ResultIssue> issues)
     {
       var validIssues = issues
-        .Where(issue => !ReferenceEquals(issue, null))
+        .Where(issue => !ReferenceEquals(issue, null) && issue.Level >= MinimumCollectionLevel)
         .ToArray();
 
       Issues = new Collection<ResultIssue>(validIssues);
