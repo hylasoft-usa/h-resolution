@@ -86,5 +86,5 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['build']);
   grunt.registerTask('build', ['nugetrestore','msbuild:release']);
   grunt.registerTask('test', ['nugetrestore','msbuild:debug', 'mstest']);
-  grunt.registerTask('release', ['assemblyinfo', 'test']);
+  grunt.registerTask('release', ['assemblyinfo', 'test', 'build']);
 };
