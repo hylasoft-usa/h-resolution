@@ -21,7 +21,7 @@ namespace Hylasoft.Resolution
     internal Result(IEnumerable<ResultIssue> issues)
     {
       var validIssues = issues
-        .Where(issue => !ReferenceEquals(issue, null))
+        .Where(issue => !ReferenceEquals(issue, null) && issue.Level >= MinimumCollectionLevel)
         .ToArray();
 
       Issues = new Collection<ResultIssue>(validIssues);
@@ -33,6 +33,11 @@ namespace Hylasoft.Resolution
     public static Result Error(Exception e)
     {
       var messages = new List<string>();
+
+      var stack = e == null
+        ? string.Empty
+        : e.StackTrace;
+
       for (; e != null; e = e.InnerException)
         messages.Add(e.Message);
 
@@ -40,7 +45,11 @@ namespace Hylasoft.Resolution
         .Distinct()
         .Select(message => new ResultIssue(message, ResultIssueLevels.Error));
 
-      return new Result(issues);
+      var error = new Result(issues);
+      if (!string.IsNullOrEmpty(stack))
+        error += SingleDebug(stack);
+
+      return error;
     }
 
     /// <summary>
@@ -72,6 +81,27 @@ namespace Hylasoft.Resolution
     /// <param name="message">Either the complete message, or the message's format string.  Following String.Format() convention.</param>
     /// <param name="parameters">(Optional) arguments to a message format string.</param>
     public static Result SingleTrace(long issueCode, string message, params object[] parameters)
+    {
+      return SingleResult(ResultIssueLevels.Trace, issueCode, message, parameters);
+    }
+
+    /// <summary>
+    /// Produces a result, with a single debug message.
+    /// </summary>
+    /// <param name="message">Either the complete message, or the message's format string.  Following String.Format() convention.</param>
+    /// <param name="parameters">(Optional) arguments to a message format string.</param>
+    public static Result SingleDebug(string message, params object[] parameters)
+    {
+      return SingleResult(ResultIssueLevels.Debug, ResultIssue.NonIssueCode, message, parameters);
+    }
+
+    /// <summary>
+    /// Produces an issue coded result, with a single debug message.
+    /// </summary>
+    /// <param name="issueCode">The unique, identifying issue code.</param>
+    /// <param name="message">Either the complete message, or the message's format string.  Following String.Format() convention.</param>
+    /// <param name="parameters">(Optional) arguments to a message format string.</param>
+    public static Result SingleDebug(long issueCode, string message, params object[] parameters)
     {
       return SingleResult(ResultIssueLevels.Trace, issueCode, message, parameters);
     }
@@ -166,13 +196,16 @@ namespace Hylasoft.Resolution
       Result formatResult;
       try
       {
-        msgFormat = string.Format(message, parameters);
+        msgFormat = parameters == null || !parameters.Any()
+          ? message
+          : string.Format(message, parameters);
+
         formatResult = Success;
       }
       catch (Exception e)
       {
         msgFormat = message;
-        formatResult = Error(e);
+        formatResult = SingleWarning("Failed to format message '{0}'.", message) + Error(e);
       }
 
       var singleResult = new Result(new ResultIssue(msgFormat, level, issueCode));
@@ -218,6 +251,28 @@ namespace Hylasoft.Resolution
     public Result AppendTrace(long issueCode, string message, params object[] parameters)
     {
       return Append(SingleTrace(issueCode, message, parameters));
+    }
+
+    /// <summary>
+    /// Appends a single debug to the current result.
+    /// </summary>
+    /// <param name="message">Either the complete message, or the message's format string.  Following String.Format() convention.</param>
+    /// <param name="parameters">(Optional) arguments to a message format string.</param>
+    /// <returns></returns>
+    public Result AppendDebug(string message, params object[] parameters)
+    {
+      return Append(SingleDebug(message, parameters));
+    }
+
+    /// <summary>
+    /// Appends a single issue coded debug to the current result.
+    /// </summary>
+    /// <param name="issueCode">The unique, identifying issue code.</param>
+    /// <param name="message">Either the complete message, or the message's format string.  Following String.Format() convention.</param>
+    /// <param name="parameters">(Optional) arguments to a message format string.</param>
+    public Result AppendDebug(long issueCode, string message, params object[] parameters)
+    {
+      return Append(SingleDebug(issueCode, message, parameters));
     }
 
     /// <summary>

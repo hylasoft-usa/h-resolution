@@ -19,6 +19,11 @@ namespace Hylasoft.Resolution
     private Collection<ResultIssue> _messages;
 
     /// <summary>
+    /// The global, minimum level of issues to collect in any given Result.
+    /// </summary>
+    public static ResultIssueLevels MinimumCollectionLevel { get; set; }
+
+    /// <summary>
     /// Determines whether the result was successful.  Success is defined as the absence of issues above a warning level.
     /// </summary>
     public bool IsSuccessful
