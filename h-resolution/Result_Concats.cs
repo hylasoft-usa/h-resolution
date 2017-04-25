@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-
+  
 namespace Hylasoft.Resolution
 {
   public partial class Result
