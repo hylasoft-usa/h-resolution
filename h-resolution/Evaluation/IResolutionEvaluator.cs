@@ -9,6 +9,6 @@ namespace Hylasoft.Resolution.Evaluation
     /// </summary>
     /// <param name="issues">A collection of issues to evaluate.</param>
     /// <returns></returns>
-    ResultIssue MostRevelvant(IEnumerable<ResultIssue> issues);
+    ResultIssue MostRevelant(IEnumerable<ResultIssue> issues);
   }
 }

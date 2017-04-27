@@ -51,14 +51,17 @@ namespace Hylasoft.Resolution.Evaluation
     /// </summary>
     /// <param name="issues">A collection of issues to evaluate.</param>
     /// <returns></returns>
-    public ResultIssue MostRevelvant(IEnumerable<ResultIssue> issues)
+    public ResultIssue MostRevelant(IEnumerable<ResultIssue> issues)
     {
       if (issues == null)
         return null;
 
-      return issues
+      var issueRevelants = issues
         .Select(issue => new { Issue = issue, Weight = RetrieveWeight(issue) })
         .OrderByDescending(setItem => setItem.Weight)
+        .ToArray();
+
+      return issueRevelants
         .Select(setItem => setItem.Issue)
         .FirstOrDefault();
     }
@@ -90,23 +93,23 @@ namespace Hylasoft.Resolution.Evaluation
     {
       var message = issue.Message;
       if (string.IsNullOrEmpty(message))
-        return 0x0 - Settings.MessageMissingPenalty;
+        return 0x0 - (int)Settings.MessageMissingPenalty;
 
-      var combinedWeight = RetrieveMessageLengthWeight(message)
-                           + RetrieveMessageWordCountRatioWeights(message)
-                           + RetrieveMessagePunctuationRatioWeight(message);
+      var lengthWeight = RetrieveMessageLengthWeight(message);
+      var wordCountRatioWeight = RetrieveMessageWordCountRatioWeights(message);
+      var punctuationRatioWeight = RetrieveMessagePunctuationRatioWeight(message);
 
-      return combinedWeight;
+      return lengthWeight + wordCountRatioWeight + punctuationRatioWeight;
     }
 
     protected virtual long RetrieveMessageLengthWeight(string message)
     {
       var length = message.Length;
       if (length < Settings.MessageMinimumLength)
-        return 0x0 - Settings.MessageMinimumLengthPenalty;
+        return 0x0 - (int)Settings.MessageMinimumLengthPenalty;
 
       return length > Settings.MessageMaximumLength
-        ? 0x0 - Settings.MessageMaximumLengthPenalty 
+        ? 0x0 - (int)Settings.MessageMaximumLengthPenalty 
         : 0x0;
     }
 

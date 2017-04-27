@@ -11,7 +11,11 @@
       ';',
       '{',
       '}',
-      '*'
+      '*',
+      '<',
+      '>',
+      '/',
+      '\\'
     };
 
     private readonly char[] _defaultSharedPunctuation =
