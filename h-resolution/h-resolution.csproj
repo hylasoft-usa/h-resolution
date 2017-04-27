@@ -39,8 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Evaluation\IResolutionEvaluator.cs" />
+    <Compile Include="Evaluation\ResultEvaluationSettings.cs" />
+    <Compile Include="Extensions\ResultExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResolutionComponent.cs" />
+    <Compile Include="Evaluation\ResolutionEvaluator.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="ResultException.cs" />
     <Compile Include="ResultIssue.cs" />
