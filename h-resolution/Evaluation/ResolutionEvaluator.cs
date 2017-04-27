@@ -116,7 +116,7 @@ namespace Hylasoft.Resolution.Evaluation
     protected virtual long RetrieveMessageWordCountRatioWeights(string message)
     {
       var averageWordsPerSentence = message
-        .Split(Settings.SentenceSeparators)
+        .Split(Settings.GetSentenceSeparators())
         .Average(sentence => sentence.Split(Settings.MessageWordSeparator).Length);
 
       var averageWordLength = message
@@ -144,11 +144,11 @@ namespace Hylasoft.Resolution.Evaluation
     {
       var messageCharacters = message.ToCharArray();
       var programmingPunctuations = messageCharacters
-        .Where(chr => Settings.PrimaryProgrammingPunctuation.Contains(chr))
+        .Where(chr => Settings.GetPrimaryProgrammingPunctuation().Contains(chr))
         .ToArray();
 
       var languagePunctuations = messageCharacters
-        .Where(chr => Settings.SharedPunctuation.Contains(chr))
+        .Where(chr => Settings.GetSharedPunctuation().Contains(chr))
         .ToArray();
 
       var weight = (long)0x0;
