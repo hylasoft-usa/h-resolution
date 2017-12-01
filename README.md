@@ -130,6 +130,14 @@ Result issues can be compared to each other, and equated against longs, strings,
 		result.AppendTrace("Max result2 included in first.");
 ````
 
+Results may have their issues filtered by conditions.
+````C#
+  var result = Validate();
+
+  var debugMessages = result.Where(r => r.Level == ResultIssueLevels.Debug);
+  var userMessages = result.Where(r => IssueCodes.UserMessages.Contains(r.IssueCode);
+````
+
 ## Build
 
 You can build the project using Visual Studio or by running the grunt tasks for `msbuild`

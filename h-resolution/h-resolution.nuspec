@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/hylasoft-usa/h-resolution</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Adds debug constructors, and a global issue level floor property.</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <releaseNotes>Adds a subset constructor.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
     <tags>ErrorCollection</tags>
   </metadata>
 </package>
