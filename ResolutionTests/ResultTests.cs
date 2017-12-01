@@ -1,4 +1,6 @@
-﻿using Hylasoft.Resolution;
+﻿using System.Linq;
+using Hylasoft.Resolution;
+using Hylasoft.Resolution.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ResolutionTests
@@ -78,6 +80,31 @@ namespace ResolutionTests
       Assert.IsTrue(allResults.Contains(WarningCode));
       Assert.IsTrue(allResults.Contains(ErrorCode));
       Assert.IsTrue(allResults.Contains(FatalCode));
+    }
+
+    [TestMethod]
+    public void TestWhere()
+    {
+      const long targetCode = 5;
+      const string testInfo = "Test Info";
+      const string testError = "Test Error";
+      const string testTrace = "Test Trace";
+
+      var testResult = Result.Concat
+      (
+        Result.SingleInfo(targetCode, testInfo),
+        Result.SingleError(testError),
+        Result.SingleTrace(targetCode, testTrace)
+      );
+
+      Assert.IsFalse(testResult);
+
+      var stripped = testResult.Where(r => r.IssueCode == targetCode);
+      Assert.IsTrue(stripped);
+      Assert.AreEqual(stripped.Issues.Count, 2);
+
+      stripped = testResult.Where(r => r.Message == testInfo);
+      Assert.AreEqual(stripped.Issues.Count, 1);
     }
 
     protected void AssertMessageCount(int numberOfMessages, params Result[] results)
