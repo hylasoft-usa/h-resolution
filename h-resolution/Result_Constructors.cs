@@ -361,5 +361,19 @@ namespace Hylasoft.Resolution
       return Append(SingleFatal(issueCode, message, parameters));
     }
     #endregion
+
+    #region Subsets
+    /// <summary>
+    /// Returns a subset of the Result, based on the issues that match the condition.
+    /// </summary>
+    /// <param name="source">The source Result.</param>
+    /// <param name="condition">The condition to check for each issue.</param>
+    public static Result Where(Result source, Func<ResultIssue, bool> condition)
+    {
+      return source == null
+        ? null
+        : new Result(source.Where(condition));
+    }
+    #endregion
   }
 }
