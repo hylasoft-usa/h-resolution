@@ -29,6 +29,16 @@ public Result Validate()
 
 	return first + second;
 }
+
+public Result ValidateAlternate()
+{
+        var validate = ValidateFirst();
+	validate += ValidateSecond();
+	
+	return validate
+		? validate
+		: validate + Result.SingleInfo("Validation failed.");	
+}
 ````
 
 Or by using Result.Concat().
@@ -121,13 +131,13 @@ Result issues can be compared to each other, and equated against longs, strings,
 	var targetMessage = Resources.Warnings.SpecificWarning;
 
 	if (result.Contains(targetCode))
-		result.AppendTrace("Result contains '{0}'.", targetCode);
+		result = result.AppendTrace("Result contains '{0}'.", targetCode);
 
 	if (result.Contains(targetMessage))
-		result.AppendTrace("Result contains specific message.");
+		result = result.AppendTrace("Result contains specific message.");
 
 	if (result.Contains(result2.Max())
-		result.AppendTrace("Max result2 included in first.");
+		result = result.AppendTrace("Max result2 included in first.");
 ````
 
 Results may have their issues filtered by conditions.
