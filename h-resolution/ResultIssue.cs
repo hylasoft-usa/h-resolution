@@ -36,7 +36,7 @@ namespace Hylasoft.Resolution
     /// <param name="message">Message identifying the issue.</param>
     /// <param name="level">Severity of the issue.</param>
     /// <param name="issueCode">A unique, identifying code to be associated with the issue.</param>
-    internal ResultIssue(string message, ResultIssueLevels level, long issueCode = NonIssueCode)
+    protected internal ResultIssue(string message, ResultIssueLevels level, long issueCode = NonIssueCode)
     {
       Message = message ?? string.Empty;
       Level = level;
