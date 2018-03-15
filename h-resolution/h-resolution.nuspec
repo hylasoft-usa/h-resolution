@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/hylasoft-usa/h-resolution</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Adds a subset constructor.</releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <releaseNotes>Makes h-resolution exstensible.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
     <tags>ErrorCollection</tags>
   </metadata>
 </package>
