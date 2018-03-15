@@ -10,7 +10,7 @@ namespace Hylasoft.Resolution
     /// <summary>
     /// Creates a new result with a single issue.
     /// </summary>
-    internal Result(ResultIssue issue)
+    protected internal Result(ResultIssue issue)
       : this(new[] { issue })
     {
     }
@@ -18,7 +18,7 @@ namespace Hylasoft.Resolution
     /// <summary>
     /// Creates a result from a collection of issues.
     /// </summary>
-    internal Result(IEnumerable<ResultIssue> issues)
+    protected internal Result(IEnumerable<ResultIssue> issues)
     {
       var validIssues = issues
         .Where(issue => !ReferenceEquals(issue, null) && issue.Level >= MinimumCollectionLevel)
